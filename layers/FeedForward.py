@@ -15,17 +15,9 @@ class FeedForward(torch.nn.Module):
         self.d_model = d_model
         self.d_ff = d_ff
 
-        self.FirstLayer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_ff)
-        self.ReLU = torch.nn.ReLU()
-        self.SecondLayer = torch.nn.Linear(in_features=self.d_ff, out_features=self.d_model)
+        self.first_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_ff)
+        self.relu_fn = torch.nn.ReLU()
+        self.second_layer = torch.nn.Linear(in_features=self.d_ff, out_features=self.d_model)
 
     def forward(self, input):
-        # type casting (if needed)
-        """
-        if isinstance(input, np.ndarray):
-            input = torch.from_numpy(input)
-            # type conversion below is neccesary to avoid errors
-            input = input.float()
-        """
-        
-        return self.SecondLayer(self.ReLU(self.FirstLayer(input)))
+        return self.second_layer(self.relu_fn(self.first_layer(input)))

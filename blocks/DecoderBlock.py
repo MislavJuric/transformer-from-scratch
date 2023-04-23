@@ -1,6 +1,7 @@
 """
     Decoder block implementation (from Attention Is All You Need, section 3.1)
 
+    masking ... will masking be used? (True / False)
     d_model ... dimension of the embedding
     h ... number of parallel attention layers
     d_k ... dimension of queries and keys
@@ -33,45 +34,29 @@ class DecoderBlock(torch.nn.Module):
 
         self.masking = masking
 
-        self.MultiHeadAttentionLayer = MultiHeadAttention(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, masking=self.masking)
-        self.EncoderDecoderAttention = EncoderDecoderAttention(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, masking=self.masking)
-        self.AddAndNormLayer = torch.nn.LayerNorm(normalized_shape=self.d_model)
-        self.FeedForwardLayer = FeedForward(d_model=self.d_model, d_ff=self.d_ff)
+        self.multi_head_attention_layer = MultiHeadAttention(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, masking=self.masking)
+        self.encoder_decoder_attention_layer = EncoderDecoderAttention(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, masking=self.masking)
+        self.add_and_norm_layer = torch.nn.LayerNorm(normalized_shape=self.d_model)
+        self.feed_forward_layer = FeedForward(d_model=self.d_model, d_ff=self.d_ff)
 
     def forward(self, embeddings, K, V):
         # TODO: assert that V.shape[1] == self.d_v
-
-        # type casting (if needed)
-        """
-        if isinstance(embeddings, np.ndarray):
-            embeddings = torch.from_numpy(embeddings)
-            # type conversion below is neccesary to avoid errors
-            embeddings = embeddings.float()
-        if isinstance(K, np.ndarray):
-            K = torch.from_numpy(K)
-            K = K.to(torch.float32)
-        if isinstance(V, np.ndarray):
-            V = torch.from_numpy(V)
-            V = V.to(torch.float32)
-        """
-
-        first_subblock_output = self.AddAndNormLayer(embeddings + self.MultiHeadAttentionLayer(embeddings))
+        first_subblock_output = self.add_and_norm_layer(embeddings + self.multi_head_attention_layer(embeddings))
         # debug prints
         """
         print("first_subblock_output.shape: (DecoderBlock)")
         print(first_subblock_output.shape)
         """
-        second_subblock_output = self.AddAndNormLayer(first_subblock_output + self.EncoderDecoderAttention(embeddings, K, V))
+        second_subblock_output = self.add_and_norm_layer(first_subblock_output + self.encoder_decoder_attention_layer(embeddings, K, V))
         # debug prints
         """
         print("second_subblock_output.shape: (DecoderBlock)")
         print(second_subblock_output.shape)
         """
-        final_result = self.AddAndNormLayer(second_subblock_output + self.FeedForwardLayer(second_subblock_output))
+        final_result = self.add_and_norm_layer(second_subblock_output + self.feed_forward_layer(second_subblock_output))
         # debug prints
         """
         print("final_result.shape: (DecoderBlock)")
         print(final_result.shape)
         """
-
         return final_result

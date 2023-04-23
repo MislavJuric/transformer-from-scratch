@@ -1,5 +1,6 @@
 import math
 
+# TODO: maybe this could be written more efficiently
 def positional_encoding(embedding, pos, d_model):
     # TODO: assert that embedding.shape[1] == d_model
     to_return = []

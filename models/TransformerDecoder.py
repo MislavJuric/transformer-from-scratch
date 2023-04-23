@@ -20,8 +20,6 @@ import numpy as np
 from blocks.DecoderBlock import DecoderBlock
 
 class TransformerDecoder(torch.nn.Module):
-    # I'm mixing camelCase with _ in variable names below; I know this isn't good practice, but here _ denotes a suffix and not a space
-
     def __init__(self, vocab_size, masking, d_model=512, h=8, d_k=64, d_v=64, d_ff=2048, number_of_decoder_blocks=6):
         super().__init__()
 
@@ -38,11 +36,11 @@ class TransformerDecoder(torch.nn.Module):
 
         self.number_of_decoder_blocks = number_of_decoder_blocks
 
-        self.decoderBlocks = []
+        self.decoder_blocks = torch.nn.ModuleList()
         for i in range(0, self.number_of_decoder_blocks):
-            self.decoderBlocks.append(DecoderBlock(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, d_ff=self.d_ff, masking=self.masking))
+            self.decoder_blocks.append(DecoderBlock(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, d_ff=self.d_ff, masking=self.masking))
 
-        self.DecoderOutputToLogitsLayer = torch.nn.Linear(in_features=self.d_model, out_features=self.vocab_size)
+        self.decoder_output_to_logits_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.vocab_size)
 
     def forward(self, tokenEmbedding, K, V): # TODO: See if K and V are entire matrices or they are only one row from the K and V encoder output matrices corresponding to this token embedding
         # debug prints
@@ -57,12 +55,16 @@ class TransformerDecoder(torch.nn.Module):
         """
         currentResult = tokenEmbedding
 
-        for decoderBlock in self.decoderBlocks:
+        for decoderBlock in self.decoder_blocks:
             currentResult = decoderBlock(embeddings=currentResult, K=K, V=V)
             # debug prints
             """
             print("currentResult.shape: (TransformerDecoder)")
             print(currentResult.shape)
             """
-        logits = self.DecoderOutputToLogitsLayer(currentResult)
+        logits = self.decoder_output_to_logits_layer(currentResult)
+        """
+        print("logits.shape: (TransformerDecoder)")
+        print(logits.shape)
+        """
         return logits

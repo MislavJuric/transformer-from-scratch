@@ -27,7 +27,7 @@ class MultiHeadAttention(torch.nn.Module):
         self.d_v = d_v
         self.masking = masking
 
-        self.scaled_dot_product_attention_layers = []
+        self.scaled_dot_product_attention_layers = torch.nn.ModuleList()
 
         for i in range(0, self.h):
             new_layer_attention = ScaledDotProductAttention(d_model=self.d_model, d_k=self.d_k, d_v=self.d_v, masking=self.masking)
@@ -35,6 +35,7 @@ class MultiHeadAttention(torch.nn.Module):
 
         self.final_linear_layer = torch.nn.Linear(in_features=self.h*self.d_v, out_features=self.d_model)
 
+    # TODO: maybe this function should have a better name since it returns True for all 2D shapes and beyond
     def is_matrix(self, arg):
         shape_of_arg = arg.shape
         shape_of_arg = list(shape_of_arg)
@@ -45,14 +46,6 @@ class MultiHeadAttention(torch.nn.Module):
 
     def forward(self, embeddings):
         # TODO: assert if embeddings.shape[1] == self.d_model
-
-        # type casting (if needed)
-        """
-        if isinstance(embeddings, np.ndarray):
-            embeddings = torch.from_numpy(embeddings)
-            # type conversion below is neccesary to avoid errors
-            embeddings = embeddings.to(torch.float32)
-        """
 
         results = []
 

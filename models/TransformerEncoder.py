@@ -31,21 +31,31 @@ class TransformerEncoder(torch.nn.Module):
 
         self.number_of_encoder_blocks = number_of_encoder_blocks
 
-        self.encoderBlocks = []
+        self.encoder_blocks = torch.nn.ModuleList()
         for i in range(0, self.number_of_encoder_blocks):
-            self.encoderBlocks.append(EncoderBlock(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, d_ff=self.d_ff))
+            self.encoder_blocks.append(EncoderBlock(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, d_ff=self.d_ff))
 
-        self.EncoderOutputToKeysLayer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_k)
-        self.EncoderOutputToValuesLayer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_v)
+        self.encoder_output_to_keys_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_k)
+        self.encoder_output_to_values_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_v)
 
     def forward(self, embeddings):
+        # debug prints
+        """
+        print("Inptus into TransformerEncoder:")
+        print("embeddings.shape: (TransformerEncoder)")
+        print(embeddings.shape)
+        """
         currentEncoderResult = embeddings
 
-        for encoderBlock in self.encoderBlocks:
+        for encoderBlock in self.encoder_blocks:
             currentEncoderResult = encoderBlock(embeddings=currentEncoderResult)
-
-        K = self.EncoderOutputToKeysLayer(currentEncoderResult)
-        V = self.EncoderOutputToValuesLayer(currentEncoderResult)
+            # debug prints
+            """
+            print("currentEncoderResult.shape: (TransformerEncoder)")
+            print(currentEncoderResult.shape)
+            """
+        K = self.encoder_output_to_keys_layer(currentEncoderResult)
+        V = self.encoder_output_to_values_layer(currentEncoderResult)
 
         encoderOutput = currentEncoderResult
 

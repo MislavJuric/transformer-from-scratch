@@ -24,12 +24,13 @@ class ScaledDotProductAttention(torch.nn.Module):
         self.d_v = d_v
         self.masking = masking
 
-        self.EmbeddingsToQueries = torch.nn.Linear(in_features=self.d_model, out_features=self.d_k)
-        self.EmbeddingsToKeys = torch.nn.Linear(in_features=self.d_model, out_features=self.d_k)
-        self.EmbeddingsToValues = torch.nn.Linear(in_features=self.d_model, out_features=self.d_v)
+        self.embeddings_to_queries_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_k)
+        self.embeddings_to_keys_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_k)
+        self.embeddings_to_values_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_v)
 
-        self.Softmax = torch.nn.Softmax(dim=-1)
+        self.softmax_fn = torch.nn.Softmax(dim=-1)
 
+    # TODO: maybe this function should have a better name since it returns True for all 2D shapes and beyond
     def is_matrix(self, arg):
         shape_of_arg = arg.shape
         shape_of_arg = list(shape_of_arg)
@@ -41,19 +42,9 @@ class ScaledDotProductAttention(torch.nn.Module):
     def forward(self, embeddings):
         # TODO: an assert here that embeddings.shape[1] == self.d_model
 
-        #number_of_embeddings = embeddings.shape[0]
-
-        # type casting (if needed)
-        """
-        if isinstance(embeddings, np.ndarray):
-            embeddings = torch.from_numpy(embeddings)
-            # type conversion below is neccesary to avoid errors
-            embeddings = embeddings.to(torch.float32)
-        """
-
-        Q = self.EmbeddingsToQueries(embeddings)
-        K = self.EmbeddingsToKeys(embeddings)
-        V = self.EmbeddingsToValues(embeddings)
+        Q = self.embeddings_to_queries_layer(embeddings)
+        K = self.embeddings_to_keys_layer(embeddings)
+        V = self.embeddings_to_values_layer(embeddings)
 
         if (self.masking == False):
             if (self.is_matrix(K)):
@@ -63,12 +54,12 @@ class ScaledDotProductAttention(torch.nn.Module):
                 print(Q.shape)
                 print("K.shape: (ScaledDotProductAttention)")
                 print(K.shape)
-                print("self.Softmax(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))).shape: (ScaledDotProductAttention)")
-                print(self.Softmax(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))).shape)
-                print("torch.matmul(self.Softmax(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V).shape: (ScaledDotProductAttention)")
-                print(torch.matmul(self.Softmax(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V).shape)
+                print("self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))).shape: (ScaledDotProductAttention)")
+                print(self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))).shape)
+                print("torch.matmul(self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V).shape: (ScaledDotProductAttention)")
+                print(torch.matmul(self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V).shape)
                 """
-                return torch.matmul(self.Softmax(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V)
+                return torch.matmul(self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V)
             else:
                 # debug prints
                 """
@@ -76,13 +67,14 @@ class ScaledDotProductAttention(torch.nn.Module):
                 print(Q.shape)
                 print("K.shape: (ScaledDotProductAttention)")
                 print(K.shape)
-                print("self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape: (ScaledDotProductAttention)")
-                print(self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape)
-                print("torch.mul(self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))), V).shape: (ScaledDotProductAttention)")
-                print(torch.mul(self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))), V).shape)
+                print("self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape: (ScaledDotProductAttention)")
+                print(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape)
+                print("torch.mul(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))), V).shape: (ScaledDotProductAttention)")
+                print(torch.mul(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))), V).shape)
                 """
-                return torch.mul(self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))), V)
+                return torch.mul(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))), V)
         else:
+            # TODO: this could probably be written more efficiently
             first_dimension_of_M = Q.size(dim=0)
             second_dimension_of_M = K.size(dim=0) # first dimension of K because K gets transposed, so first dimension becomes the second dimension
             M = torch.zeros(first_dimension_of_M, second_dimension_of_M) # the look-ahead mask matrix
@@ -97,14 +89,14 @@ class ScaledDotProductAttention(torch.nn.Module):
                 print(Q.shape)
                 print("K.shape: (ScaledDotProductAttention)")
                 print(K.shape)
-                print("self.Softmax(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))).shape (ScaledDotProductAttention)")
-                print(self.Softmax(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))).shape)
-                print("self.Softmax(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))):")
-                print(self.Softmax(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))))
-                print("torch.matmul(self.Softmax(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V).shape: (ScaledDotProductAttention)")
-                print(torch.matmul(self.Softmax(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V).shape)
+                print("self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))).shape (ScaledDotProductAttention)")
+                print(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))).shape)
+                #print("self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))):")
+                #print(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))))
+                print("torch.matmul(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V).shape: (ScaledDotProductAttention)")
+                print(torch.matmul(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V).shape)
                 """
-                return torch.matmul(self.Softmax(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V)
+                return torch.matmul(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V)
             else:
                 # debug prints
                 """
@@ -112,9 +104,9 @@ class ScaledDotProductAttention(torch.nn.Module):
                 print(Q.shape)
                 print("K.shape: (ScaledDotProductAttention)")
                 print(K.shape)
-                print("self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape: (ScaledDotProductAttention)")
-                print(self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape)
-                print("(self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V).shape: (ScaledDotProductAttention)")
-                print((self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V).shape)
+                print("self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape: (ScaledDotProductAttention)")
+                print(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape)
+                print("(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V).shape: (ScaledDotProductAttention)")
+                print((self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V).shape)
                 """
-                return self.Softmax(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V
+                return self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V

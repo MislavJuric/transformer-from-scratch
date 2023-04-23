@@ -30,20 +30,11 @@ class EncoderBlock(torch.nn.Module):
         self.d_v = d_v
         self.d_ff = d_ff
 
-        self.MultiHeadAttentionLayer = MultiHeadAttention(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, masking=False)
-        self.AddAndNormLayer = torch.nn.LayerNorm(normalized_shape=self.d_model)
-        self.FeedForwardLayer = FeedForward(d_model=self.d_model, d_ff=self.d_ff)
+        self.multi_head_attention_layer = MultiHeadAttention(d_model=self.d_model, h=self.h, d_k=self.d_k, d_v=self.d_v, masking=False)
+        self.add_and_norm_layer = torch.nn.LayerNorm(normalized_shape=self.d_model)
+        self.feed_forward_layer = FeedForward(d_model=self.d_model, d_ff=self.d_ff)
 
     def forward(self, embeddings):
-        # type casting (if needed)
-        """
-        if isinstance(embeddings, np.ndarray):
-            embeddings = torch.from_numpy(embeddings)
-            # type conversion below is neccesary to avoid errors
-            embeddings = embeddings.float()
-        """
-        
-        first_subblock_output = self.AddAndNormLayer(embeddings + self.MultiHeadAttentionLayer(embeddings))
-        final_result = self.AddAndNormLayer(first_subblock_output + self.FeedForwardLayer(first_subblock_output))
-
+        first_subblock_output = self.add_and_norm_layer(embeddings + self.multi_head_attention_layer(embeddings))
+        final_result = self.add_and_norm_layer(first_subblock_output + self.feed_forward_layer(first_subblock_output))
         return final_result

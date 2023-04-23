@@ -1,5 +1,5 @@
 """
-    Forward pass implementation
+    Forward pass implementation (word by word)
 """
 
 import numpy as np
@@ -8,6 +8,8 @@ import torch
 from models.Transformer import Transformer
 
 from utils.TransformerDataset import TransformerDataset
+
+from utils.helper_functions import positional_encoding
 
 # Get cpu, gpu or mps device for testing.
 device = (
@@ -49,48 +51,69 @@ embedding_layer_target = TransformerDatasetInstance.return_embedding_layer_targe
 softmax_fn = torch.nn.Softmax(dim=-1)
 
 TransformerInstance.eval()
-for sentence_index in range(0, len(TransformerDatasetInstance)):
-    current_source_sentence = TransformerDatasetInstance[sentence_index][0]
-    # below code geneerates one word at a time (beggining from the BOS token), then appends that newly generated word to already existing sequence,
-    # then generates a new word again etc.
-    # TODO: could write the below code more concisely, I think
-    BOS_index = bpemb_instance_target.BOS
-    current_token = bpemb_instance_target.BOS_str
-    current_token_embedding = embedding_layer_target(torch.tensor(BOS_index))
-    current_generated_sequence_length = 0
-    generated_sequence = current_token_embedding
-    generated_sequence_list = [current_token_embedding]
-    generated_sequence_decoded = [current_token]
-    max_sequence_length = 3 # a parameter to prevent endless text generation if EOS token isn't generated
-    while ((current_token != bpemb_instance_target.EOS_str) and (current_generated_sequence_length < max_sequence_length)):
-        with torch.no_grad():
-            print("generated_sequence.shape:")
-            print(generated_sequence.shape)
-            token_logits = TransformerInstance(current_source_sentence, generated_sequence)
-            print("token_logits.shape:")
-            print(token_logits.shape)
-            token_probabilities = softmax_fn(token_logits)
-            print("token_probabilities.shape:")
-            print(token_probabilities.shape)
-            if (token_probabilities.ndim == 1):
-                token_index_with_highest_probability = np.argmax(token_probabilities.detach().numpy())
-            elif (token_probabilities.ndim == 2):
-                token_index_with_highest_probability = np.argmax(token_probabilities.detach().numpy()[-1, :])
-            token_index_with_highest_probability = int(token_index_with_highest_probability)
-            print("token_index_with_highest_probability:")
-            print(token_index_with_highest_probability)
-            current_decoded_token = bpemb_instance_target.decode_ids([token_index_with_highest_probability])
-            current_token = current_decoded_token
-            generated_sequence_decoded.append(current_token)
-            current_token_embedding = embedding_layer_target(torch.tensor(token_index_with_highest_probability))
-            new_generated_sequence_list = []
-            # generate the new embedding matrix with the new token embedding added to it
-            for generated_embedding in generated_sequence_list:
-                new_generated_sequence_list.append(generated_embedding)
-            new_generated_sequence_list.append(current_token_embedding)
-            generated_sequence_list = new_generated_sequence_list
-            generated_sequence = torch.stack(new_generated_sequence_list, dim=0)
-            current_generated_sequence_length = current_generated_sequence_length + 1
-    print("generated_sequence_decoded for sentence at index " + str(sentence_index) + ":")
-    print(generated_sequence_decoded)
-    break
+for sentence_index, (source_sentence_embeddings_matrix, target_sentence_embeddings_matrix, token_ids_target_sentence) in enumerate(TransformerDatasetInstance):
+    current_token_index = bpemb_instance_target.BOS
+    current_token_position_in_sentence = 0
+    current_token_embedding = embedding_layer_target(torch.tensor([current_token_index]))
+    positional_encoding_for_current_token_embedding = positional_encoding(embedding=current_token_embedding, pos=current_token_position_in_sentence, d_model=d_model_decoder)
+    positional_encoding_for_current_token_embedding = torch.FloatTensor(positional_encoding_for_current_token_embedding)
+    current_token_embedding_with_positional_encoding = torch.add(current_token_embedding, positional_encoding_for_current_token_embedding)
+
+    generated_sequence_list = [current_token_embedding_with_positional_encoding]
+    generated_sequence = current_token_embedding_with_positional_encoding
+    generated_token_indices = []
+    max_sequence_length = 50
+    while ((current_token_index != bpemb_instance_target.EOS) and (len(generated_token_indices) <= max_sequence_length)):
+        # forward pass
+        logits = TransformerInstance(source_sentence_embeddings_matrix, generated_sequence)
+        # debug prints
+        """
+        print("logits.shape:")
+        print(logits.shape)
+        """
+        next_token_probability_distributions = softmax_fn(logits)
+        # debug prints
+        """
+        print("next_token_probability_distributions.shape:")
+        print(next_token_probability_distributions.shape)
+        """
+        next_token_index_with_highest_probability = None
+        try:
+            next_token_index_with_highest_probability = np.argmax(next_token_probability_distributions.detach().numpy()[-1, :])
+        except:
+            next_token_index_with_highest_probability = np.argmax(next_token_probability_distributions.detach().numpy())
+        current_token_index = next_token_index_with_highest_probability
+        # debug prints
+        """
+        print("current_token_index:")
+        print(current_token_index)
+        """
+        current_token_position_in_sentence = current_token_position_in_sentence + 1
+        current_token_embedding = embedding_layer_target(torch.tensor([current_token_index]))
+        positional_encoding_for_current_token_embedding = positional_encoding(embedding=current_token_embedding, pos=current_token_position_in_sentence, d_model=d_model_decoder)
+        positional_encoding_for_current_token_embedding = torch.FloatTensor(positional_encoding_for_current_token_embedding)
+        current_token_embedding_with_positional_encoding = torch.add(current_token_embedding, positional_encoding_for_current_token_embedding)
+        # debug prints
+        """
+        print("current_token_embedding_with_positional_encoding.shape:")
+        print(current_token_embedding_with_positional_encoding.shape)
+        """
+        generated_sequence_list.append(current_token_embedding_with_positional_encoding)
+        generated_sequence = torch.cat(generated_sequence_list, dim=0)
+        # debug prints
+        """
+        print("generated_sequence.shape:")
+        print(generated_sequence.shape)
+        """
+        generated_token_indices.append(current_token_index)
+        # debug prints
+        """
+        print("generated_sequence.shape:")
+        print(generated_sequence.shape)
+        """
+
+    print("Translation for sentence at index " + str(sentence_index) + ":")
+    print("token_ids_target_sentence:")
+    print(token_ids_target_sentence)
+    print("generated_token_indices:")
+    print(generated_token_indices)
