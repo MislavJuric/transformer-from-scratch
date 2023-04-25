@@ -31,6 +31,6 @@ The list below contains the description of files and folders in this repository 
  - **test_trained_model_token_by_token_on_generated_tokens.py** - tests a trained Transformer model token by token; the next token is the most probable one
  - **test_trained_model_token_by_token_on_true_tokens.py** - tests a trained Transformer model token by token; the next token is the true next token
  - **test_untrained_model_baseline.py** - tests an untrained Transformer token by token; this was my baseline
- - **Time_log.txt** - my own notes about how much time I spent doing what; *note:* I may have taken some additional time to write the writeup after updating this repository
+ - **Time_log.txt** - my own notes about how much time I spent doing what
  - **train.py** - the training script
  - **utils** - contains the Transformer dataset implementation, as well as the positional encoding function implementation

@@ -101,6 +101,5 @@ All times below are constituted as 30 min working + 10 min rest (40 min working 
 ~40 min debugging inference
 ~1 h 30 min debugging inference and re-writing a small part of MultiHeadAttention.py - the bug in inference was related to the fact that positional encoding got passed a matrix of shape [1, 100] and it iterated over the dimension of 1, not 100 as was expected
 1 h tidying up code and wrapping things up
-40 min tidying up the repository and writing the writeup
-
+40 min tidying up the repository and starting to write the writeup
 
