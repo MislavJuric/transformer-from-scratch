@@ -42,21 +42,6 @@ class DecoderBlock(torch.nn.Module):
     def forward(self, embeddings, K, V):
         # TODO: assert that V.shape[1] == self.d_v
         first_subblock_output = self.add_and_norm_layer(embeddings + self.multi_head_attention_layer(embeddings))
-        # debug prints
-        """
-        print("first_subblock_output.shape: (DecoderBlock)")
-        print(first_subblock_output.shape)
-        """
         second_subblock_output = self.add_and_norm_layer(first_subblock_output + self.encoder_decoder_attention_layer(embeddings, K, V))
-        # debug prints
-        """
-        print("second_subblock_output.shape: (DecoderBlock)")
-        print(second_subblock_output.shape)
-        """
         final_result = self.add_and_norm_layer(second_subblock_output + self.feed_forward_layer(second_subblock_output))
-        # debug prints
-        """
-        print("final_result.shape: (DecoderBlock)")
-        print(final_result.shape)
-        """
         return final_result

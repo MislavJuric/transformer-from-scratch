@@ -1,0 +1,6 @@
+Go thorugh the code again: focus on improving readability (first) and efficiency (second); make sure to backup old files
+Add learning rate scheduling
+Add dropout as regularization in the layers (section 5.4, Residual Dropout)
+Add Label Smoothing (section 5.4, Label Smoothing)
+Add early stopping in training
+Implement batching

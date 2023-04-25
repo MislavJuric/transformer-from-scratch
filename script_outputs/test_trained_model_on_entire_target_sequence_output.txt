@@ -1,0 +1,50 @@
+Using cuda device
+Translation of sentence 0:
+token_ids_target_sentence:
+[1, 10690, 123653, 142, 149, 24571, 8938, 47, 10413, 199943, 10413, 47, 10413, 42998, 67589, 2551, 31, 90, 299, 181280, 303, 91, 41020, 135, 166955, 39, 31, 154534, 802, 59, 9067, 4572, 26, 170661, 570, 14551, 1336, 34203, 286, 1935, 0, 2]
+predicted_token_ids:
+[10690, 123653, 142, 149, 24571, 8938, 47, 10413, 199943, 10413, 47, 10413, 42998, 67589, 2551, 31, 90, 299, 181280, 303, 91, 41020, 135, 166955, 39, 31, 154534, 802, 59, 9067, 4572, 26, 170661, 570, 14551, 1336, 34203, 286, 1935, 0, 2, 2]
+generated_sequence_decoded:
+['iron', 'cement', 'ist', 'eine', 'gebrauchs', '##', 'at', '##', '-', '##', 'at', '##', 'fertige', 'paste', ',', 'die', 'mit', 'einem', 'spachtel', 'oder', 'den', 'fingern', 'als', 'hohlkehle', 'in', 'die', 'forme', 'cken', '(', 'winkel', ')', 'der', 'stahlguss', '-', 'kok', 'ille', 'aufgetragen', 'wird', '.', ' ⁇ ', '', '']
+Translation of sentence 1:
+token_ids_target_sentence:
+[1, 146, 26, 177804, 29795, 10690, 123653, 31, 11579, 1336, 394, 91, 171613, 2551, 103002, 1382, 170661, 1935, 0, 2]
+predicted_token_ids:
+[146, 26, 177804, 29795, 10690, 123653, 31, 11579, 1336, 394, 91, 171613, 2551, 103002, 1382, 170661, 1935, 0, 2, 2]
+generated_sequence_decoded:
+['nach', 'der', 'aushärtung', 'schützt', 'iron', 'cement', 'die', 'kok', 'ille', 'gegen', 'den', 'heissen', ',', 'abras', 'iven', 'stahlguss', '.', ' ⁇ ', '', '']
+Translation of sentence 2:
+token_ids_target_sentence:
+[1, 2976, 74205, 17876, 127973, 137, 2976, 45489, 2551, 54614, 2551, 11623, 65960, 6633, 199935, 0, 2]
+predicted_token_ids:
+[2976, 74205, 17876, 127973, 137, 2976, 45489, 2551, 54614, 2551, 11623, 65960, 6633, 199935, 0, 2, 2]
+generated_sequence_decoded:
+['feuer', 'fester', 'reparatur', 'kitt', 'für', 'feuer', 'ungsanlagen', ',', 'öfen', ',', 'offene', 'feuerstellen', 'etc', '.', ' ⁇ ', '', '']
+Translation of sentence 3:
+token_ids_target_sentence:
+[1, 26, 559, 43, 31, 17876, 26, 5785, 5388, 3874, 0, 2]
+predicted_token_ids:
+[26, 559, 43, 31, 17876, 26, 5785, 5388, 3874, 0, 2, 2]
+generated_sequence_decoded:
+['der', 'bau', 'und', 'die', 'reparatur', 'der', 'auto', 'straßen', '...', ' ⁇ ', '', '']
+Translation of sentence 4:
+token_ids_target_sentence:
+[1, 31, 22441, 3796, 91, 53226, 20050, 3146, 5084, 1935, 0, 2]
+predicted_token_ids:
+[31, 22441, 3796, 91, 53226, 20050, 3146, 5084, 1935, 0, 2, 2]
+generated_sequence_decoded:
+['die', 'mitteilungen', 'sollen', 'den', 'geschäftlichen', 'kommerziellen', 'charakter', 'tragen', '.', ' ⁇ ', '', '']
+Translation of sentence 5:
+token_ids_target_sentence:
+[1, 26, 10021, 1034, 581, 43, 2336, 7571, 218, 99, 181270, 8938, 47, 10413, 199943, 10413, 47, 10413, 2100, 286, 275, 8893, 1935, 0, 2]
+predicted_token_ids:
+[26, 10021, 1034, 581, 43, 2336, 7571, 218, 99, 181270, 8938, 47, 10413, 199943, 10413, 47, 10413, 2100, 286, 275, 8893, 1935, 0, 2, 2]
+generated_sequence_decoded:
+['der', 'vertrieb', 'ihrer', 'waren', 'und', 'dienst', 'leistungen', 'durch', 'das', 'postfach', '##', 'at', '##', '-', '##', 'at', '##', 'system', 'wird', 'nicht', 'zugelassen', '.', ' ⁇ ', '', '']
+Translation of sentence 6:
+token_ids_target_sentence:
+[1, 31, 11493, 421, 1915, 59, 66818, 4572, 43, 1464, 29, 188255, 5453, 270, 35826, 1935, 0, 2]
+predicted_token_ids:
+[31, 11493, 421, 1915, 59, 66818, 4572, 43, 1464, 29, 188255, 5453, 270, 35826, 1935, 0, 2, 2]
+generated_sequence_decoded:
+['die', 'werbe', 'vers', 'ande', '(', 'spam', ')', 'und', 'andere', 'un', 'korrekte', 'informationen', 'werden', 'gelöscht', '.', ' ⁇ ', '', '']

@@ -10,5 +10,5 @@ def positional_encoding(embedding, pos, d_model):
             to_return.append(math.sin(sin_argument))
         else:
             cos_argument = pos / 10000**((2*i)/d_model)
-            to_return.append(math.cos(pos / 10000**((2*i)/d_model)))
+            to_return.append(math.cos(cos_argument))
     return to_return

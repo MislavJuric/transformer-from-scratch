@@ -1,0 +1,106 @@
+All times below are constituted as 30 min working + 10 min rest (40 min working blocks that I found most optimal for me, based on https://www.ultraworking.com/
+
+~2-4 h reading papers
+40 min setting up virtual environment
+~10 min setting up virtual environment; 30 min re-reading the paper and writing code for scaled dot-product attention
+40 min writing code for scaled dot-product attention and the scaffolding code (creating a module out of the layers folder and writing the scaffolding for the test)
+20 min debugging and writing code for the Scaled Dot-Product Attention layer
+~30 min on writing a test for the Scaled Dot-Product Attention layer and 10 min for Multi-Head Attention
+40 min writing code for Multi-Head Attention
+40 min writing and debugging code for Multi-Head Attention
+40 min debugging code for Multi-Head Attention
+40 min reading the paper again (to catch some technical details), some Medium articles and writing scaffolding code for the Encoder block
+40 min writing code for the Encoder block
+~10 minutes reading some Medium articles
+40 min writing code for the Encoder block and the Feed Forward layer and the Feed Forward layer test
+20 min for writing the Encoder block test and revisiting the Decoder block architecture from the paper
+20 min of reading https://medium.com/mlearning-ai/how-do-self-attention-masks-work-72ed9382510f
+40 min reading Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention), then The Illustrated Transformer and changing up the Encoder block code so that the feedforward network layer is shared between all blocks
+40 min reading The Illustrated Transformer
+5-10 min reading The Illustrated Transformer
+20 min reading The Illustrated Transformer
+40 min re-implementing the Scaled Dot-Product Attention layer and the Multi-Head Attention layer (haven't finished the Multi-Head Attention layer)
+~10 min re-implementing the Multi-Head Attention layer and moving some code to deprecated folder
+~15 min re-implementing the Scaled Dot-Product Attention layer test and Multi-Head Attention layer test
+~5 min double-checking the FeedForward layer implementation and its test
+20 min moved the Encoder_first_try to deprecated folder and explained why it's deprecated
+40 min re-implementing the Encoder Block, double-checking its test and reading about the Decoder in The Illustrated Transformer
+~15 min reading about the decoder in The Illustrated Transformer and The Attention Is All You Need paper
+40 min implementing masking in the Scaled Dot-Product Attention layer (based on https://medium.com/mlearning-ai/how-do-self-attention-masks-work-72ed9382510f)
+40 min reading about the Decoder
+40 min implementing Encoder-Decoder Attention and Scaled Dot-Product Attention for the Decoder
+40 min implementing the Decoder block and its test
+20 min reading up on Encoder-Decoder training procedure
+40 min implementing the Transformer Encoder model
+40 min implementing the Transformer model
+~15 min implementing the Transformer model
+40 min implementing the Transformer Encoder model and the Transformer Decoder model and their associated tests
+~20 min reseraching into embeddings
+40 min looking into embeddings
+~40 min reading about the embedding and the dataset used in the paper and BPEmb
+40 min writing the Encoder Train Dataset PyTorch class using BPEmb
+~50 min looking into BPEmb
+~20 min looking into Encoder-Decoder training
+~30 min looking into Encoder-Decoder training
+40 min looking into Encoder-Decoder training
+40 min looking into Encoder-Decoder training and writing the Encoder Dataset class
+40 min writing the Encoder Dataset class (I was distracted here by listening to the Lex Fridman podcast)
+40 min implementing the positional encoding and testing it
+40 min implementing the Decoder Dataset class and the forward pass code (test.py)
+40 min implementing the forward pass code (test.py) and reviewing The Illustrated Transformer
+40 min debugging the forward pass code (test.py)
+40 min looking into masking and debugging the forward pass code (test.py)
+~50 min debugging the forward pass code (test.py)
+10 min implementing the training loop, then realizing I needed to rewrite it
+40 min implementing the TransformerDataset class
+~15 min writing train.py
+40 min looking into dataloader error when batch_size > 1 and writing train.py
+~40 min writing train.py
+40 min looking into BPEmb
+~30 min re-writing test.py 
+10 min debugging test.py
+~40 min looking into training
+~40 min looking into training
+~10 min looking into training
+~40 min looking into training and writing test.py and train.py 
+40 min writing train.py
+~20 min writing the Transformer class and re-writing test.py and train.py
+~5 min looking into Cross-Entropy loss
+~45 min reading about the training parameters in the paper and writing train.py
+40 min implementing train.py
+~25 min reading about training in the original paper and implementing that in my model layers and/or train.py code
+~15 min looking at cross entropy and learning rates
+~25 min reading Andrej Karpathy's A Recipe for Training Neural Networks (http://karpathy.github.io/2019/04/25/recipe/)
+~40 min debugging the model training
+~5 min setting up model hyperparameters (number of epochs etc.) and editing train.py code
+40 min loading up the Transformer trained weights and see how they perform against the baseline (randomly initialized weights)
+~35 min re-reading the testing code, looking for errors
+~5-10 min looking into the testing code to find bugs
+20 min looking into train.py and seeing if everything is OK
+~20 min looking at train.py debug output log and testing code
+~40 min debugging testing code
+40 min implementing masking for inference 
+~20 min debugging inference
+40 min reading the masking article again and looking for bugs in my inference code
+5-10 min looking into masking 
+~20 min debugging inference 
+~15 min debugging inference
+40 min debugging inference - found one of the bugs; I was training without masking and running inference with masking
+~50 min debugging inference
+~1 h debugging inference - found one of the bugs; it was the fact that PyTorch didn't save all the model weights; it saved only the immediate layers in the TransformerEncoder and TransformerDecoder instances in the Transformer class, but it didn't save the weights of the other layers TransformerEncoder and TransformerDecoder were composed of
+~30 min looking at training log output and reading about saving all of the sub-layer weights of a model
+~5 min testing inference
+~10 min debugging inference - my training loss wasn't 0, so that's why some of the predictions bad
+~40 min checking out how the training is going and trying out different learning rates
+~40 min debugging test_trained_model.py
+40 min re-writing some code (re-naming variables etc.)
+40 min re-writing some code (re-naming variables etc.) and starting the training again due to renaming variables
+~40 min adding positional encoding to test_trained_model.py, installing packages and writing loss visualization code (Jupyter notebook)
+~40 min writing README and testing test_trained_model.py
+~1 h 50 min writing test_trained_model.py anew
+~40 min debugging inference
+~1 h 30 min debugging inference and re-writing a small part of MultiHeadAttention.py - the bug in inference was related to the fact that positional encoding got passed a matrix of shape [1, 100] and it iterated over the dimension of 1, not 100 as was expected
+1 h tidying up code and wrapping things up
+40 min tidying up the repository and writing the writeup
+
+

@@ -53,28 +53,13 @@ class EncoderDecoderAttention(torch.nn.Module):
         # TODO: an assert here that V.shape[1] == self.d_v
 
         results = []
-
         for attention_layer_index in range(0, self.h):
             result_from_one_attention_layer = self.scaled_dot_product_attention_layers[attention_layer_index](embeddings, K, V)
-            # debug prints
-            """
-            print("result_from_one_attention_layer.shape: (EncoderDecoderAttention)")
-            print(result_from_one_attention_layer.shape)
-            """
             results.append(result_from_one_attention_layer)
 
         if (self.is_matrix(results[0])):
             concat_result = torch.cat(results, dim=1)
         else:
             concat_result = torch.cat(results, dim=0)
-
-        # debug prints
-        """
-        print("concat_result.shape: (EncoderDecoderAttention)")
-        print(concat_result.shape)
-
-        print("self.final_linear_layer(concat_result).shape: (EncoderDecoderAttention)")
-        print(self.final_linear_layer(concat_result).shape)
-        """
 
         return self.final_linear_layer(concat_result)

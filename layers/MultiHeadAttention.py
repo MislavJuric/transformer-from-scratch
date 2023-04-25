@@ -35,40 +35,14 @@ class MultiHeadAttention(torch.nn.Module):
 
         self.final_linear_layer = torch.nn.Linear(in_features=self.h*self.d_v, out_features=self.d_model)
 
-    # TODO: maybe this function should have a better name since it returns True for all 2D shapes and beyond
-    def is_matrix(self, arg):
-        shape_of_arg = arg.shape
-        shape_of_arg = list(shape_of_arg)
-        if (len(shape_of_arg) > 1):
-            return True
-        else:
-            return False
-
     def forward(self, embeddings):
         # TODO: assert if embeddings.shape[1] == self.d_model
 
         results = []
-
         for attention_layer_index in range(0, self.h):
             result_from_one_attention_layer = self.scaled_dot_product_attention_layers[attention_layer_index](embeddings)
-            # debug prints
-            """
-            print("result_from_one_attention_layer.shape: (MultiHeadAttention)")
-            print(result_from_one_attention_layer.shape)
-            """
             results.append(result_from_one_attention_layer)
 
-        if (self.is_matrix(results[0])):
-            concat_result = torch.cat(results, dim=1)
-        else:
-            concat_result = torch.cat(results, dim=0)
+        concat_result = torch.cat(results, dim=1)
 
-        # debug prints
-        """
-        print("concat_result.shape: (MultiHeadAttention)")
-        print(concat_result.shape)
-
-        print("self.final_linear_layer(concat_result).shape: (MultiHeadAttention)")
-        print(self.final_linear_layer(concat_result).shape)
-        """
         return self.final_linear_layer(concat_result)

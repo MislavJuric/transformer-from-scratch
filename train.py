@@ -60,21 +60,10 @@ softmax_fn = torch.nn.Softmax(dim=-1)
 for epoch_number in range(0, number_of_epochs):
     print("Epoch number: " + str(epoch_number))
     for sentence_index, (source_sentence_embeddings_matrix, target_sentence_embeddings_matrix, token_ids_target_sentence) in enumerate(TransformerDatasetInstance):
-        # debug prints
-        """
-        print("token_ids_target_sentence: (true token ids)")
-        print(token_ids_target_sentence)
-        """
         # forward pass
 
         logits = TransformerInstance(source_sentence_embeddings_matrix, target_sentence_embeddings_matrix)
-        # debug prints
-        """
-        print("logits.shape:")
-        print(logits.shape)
-        print("logits:")
-        print(logits)
-        """
+
         # loss calculation
 
         # let's construct the target matrix for the loss function; it will have the same shape as logits, but it will contain the probability distribution of the next token
@@ -82,25 +71,10 @@ for epoch_number in range(0, number_of_epochs):
         true_token_probability_distributions = torch.zeros((int(logits.shape[0]), vocab_size))
         for current_token_probability_distribution_index in range(0, (len(logits) - 1)):
             true_next_token_index = token_ids_target_sentence[current_token_probability_distribution_index + 1]
-            # debug prints
-            """
-            print("true_next_token_index:")
-            print(true_next_token_index)
-            """
             true_token_probability_distributions[current_token_probability_distribution_index][true_next_token_index] = 1
         # the true next predicted token of the last token should be EOS; my last two token probability distributions will place the highest probability on EOS
         EOS_token_index_target_language = bpemb_instance_target.EOS
-        """
-        print("EOS_token_index_target_language:")
-        print(EOS_token_index_target_language)
-        """
         true_token_probability_distributions[int(logits.shape[0]) - 1][EOS_token_index_target_language] = 1
-
-        # debug prints
-        """
-        print("true_token_probability_distributions:")
-        print(true_token_probability_distributions.shape)
-        """
 
         loss = loss_fn(logits, true_token_probability_distributions)
 
@@ -111,27 +85,8 @@ for epoch_number in range(0, number_of_epochs):
 
         # diagnostic prints
         size = len(TransformerDatasetInstance)
-        #if sentence_index % 6 == 0:
         loss, current = loss.item(), sentence_index
         print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-        # if below used for debugging purposes
-        """
-        if (loss < 0.02):
-            print("token_ids_target_sentence: (true token ids)")
-            print(token_ids_target_sentence)
-            print("Softmax applied over all logits at once: (predicted next token ids)")
-            next_token_probability_distributions = softmax_fn(logits)
-            for next_token_probability_distribution in next_token_probability_distributions:
-                next_token_index_with_highest_probability = np.argmax(next_token_probability_distribution.detach().numpy())
-                print("next_token_index_with_highest_probability:")
-                print(next_token_index_with_highest_probability)
-            print("Softmax applied to one logit vector at a time: (predicted next token ids)")
-            for logits_for_the_next_token in logits:
-                next_token_probability_distribution = softmax_fn(logits_for_the_next_token)
-                next_token_index_with_highest_probability = np.argmax(next_token_probability_distribution.detach().numpy())
-                print("next_token_index_with_highest_probability:")
-                print(next_token_index_with_highest_probability)
-        """
 
 # save the model
 weights_filename = "transformer_model_trained_on_mini_train_dataset_weights_after_" + str(number_of_epochs) + "_epochs.pth"

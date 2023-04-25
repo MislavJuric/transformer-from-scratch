@@ -42,29 +42,11 @@ class TransformerDecoder(torch.nn.Module):
 
         self.decoder_output_to_logits_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.vocab_size)
 
-    def forward(self, tokenEmbedding, K, V): # TODO: See if K and V are entire matrices or they are only one row from the K and V encoder output matrices corresponding to this token embedding
-        # debug prints
-        """
-        print("Inputs into TransformerDecoder:")
-        print("tokenEmbedding.shape: (TransformerDecoder)")
-        print(tokenEmbedding.shape)
-        print("K.shape: (TransformerDecoder)")
-        print(K.shape)
-        print("V.shape: (TransformerDecoder)")
-        print(V.shape)
-        """
+    def forward(self, tokenEmbedding, K, V):
         currentResult = tokenEmbedding
 
         for decoderBlock in self.decoder_blocks:
             currentResult = decoderBlock(embeddings=currentResult, K=K, V=V)
-            # debug prints
-            """
-            print("currentResult.shape: (TransformerDecoder)")
-            print(currentResult.shape)
-            """
+            
         logits = self.decoder_output_to_logits_layer(currentResult)
-        """
-        print("logits.shape: (TransformerDecoder)")
-        print(logits.shape)
-        """
         return logits

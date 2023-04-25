@@ -41,27 +41,7 @@ number_of_decoder_blocks=6
 masking = True
 
 TransformerInstance = Transformer(vocab_size=vocab_size, masking=masking, d_model_encoder=d_model_encoder, h_encoder=h_encoder, d_k_encoder=d_k_encoder, d_v_encoder=d_v_encoder, d_ff_encoder=d_ff_encoder, number_of_encoder_blocks=number_of_encoder_blocks, d_model_decoder=d_model_decoder, h_decoder=h_decoder, d_k_decoder=d_k_decoder, d_v_decoder=d_v_decoder, d_ff_decoder=d_ff_decoder, number_of_decoder_blocks=number_of_decoder_blocks)
-# debug prints
-"""
-print("TransformerInstance:")
-print(TransformerInstance)
-print("Before loading:")
-print("TransformerInstance.TransformerEncoderInstance.encoderBlocks[0].MultiHeadAttentionLayer.scaled_dot_product_attention_layers[0].EmbeddingsToQueries.weight:")
-print(TransformerInstance.TransformerEncoderInstance.encoderBlocks[0].MultiHeadAttentionLayer.scaled_dot_product_attention_layers[0].EmbeddingsToQueries.weight)
-print("TransformerInstance.TransformerEncoderInstance.EncoderOutputToKeysLayer.weight")
-print(TransformerInstance.TransformerEncoderInstance.EncoderOutputToKeysLayer.weight)
-"""
-
-TransformerInstance.load_state_dict(torch.load("transformer_model_trained_on_mini_train_dataset_weights_after_2048_epochs.pth"))
-
-# debug prints
-"""
-print("After loading:")
-print("TransformerInstance.TransformerEncoderInstance.encoderBlocks[0].MultiHeadAttentionLayer.scaled_dot_product_attention_layers[0].EmbeddingsToQueries.weight:")
-print(TransformerInstance.TransformerEncoderInstance.encoderBlocks[0].MultiHeadAttentionLayer.scaled_dot_product_attention_layers[0].EmbeddingsToQueries.weight)
-print("TransformerInstance.TransformerEncoderInstance.EncoderOutputToKeysLayer.weight")
-print(TransformerInstance.TransformerEncoderInstance.EncoderOutputToKeysLayer.weight)
-"""
+TransformerInstance.load_state_dict(torch.load("model_weights/transformer_model_trained_on_mini_train_dataset_weights_after_2048_epochs.pth"))
 
 bpemb_instance_target = TransformerDatasetInstance.return_bpemb_target_instance()
 embedding_layer_target = TransformerDatasetInstance.return_embedding_layer_target()
@@ -71,12 +51,10 @@ softmax_fn = torch.nn.Softmax(dim=-1)
 TransformerInstance.eval()
 for sentence_index, (source_sentence_embeddings_matrix, target_sentence_embeddings_matrix, token_ids_target_sentence) in enumerate(TransformerDatasetInstance):
     print("Translation of sentence " + str(sentence_index) + ":")
-    # debug prints
-
     print("token_ids_target_sentence:")
     print(token_ids_target_sentence)
 
-    generated_sequence = []
+    generated_sequence_decoded = []
     predicted_token_ids = []
     with torch.no_grad():
         all_token_logits = TransformerInstance(source_sentence_embeddings_matrix, target_sentence_embeddings_matrix)
@@ -85,10 +63,9 @@ for sentence_index, (source_sentence_embeddings_matrix, target_sentence_embeddin
             token_index_with_highest_probability = np.argmax(token_probabilities.detach().numpy())
             predicted_token_ids.append(token_index_with_highest_probability)
             current_decoded_token = bpemb_instance_target.decode_ids([int(token_index_with_highest_probability)])
-            generated_sequence.append(current_decoded_token)
-    # debug prints
+            generated_sequence_decoded.append(current_decoded_token)
 
     print("predicted_token_ids:")
     print(predicted_token_ids)
-
-    print(generated_sequence)
+    print("generated_sequence_decoded:")
+    print(generated_sequence_decoded)

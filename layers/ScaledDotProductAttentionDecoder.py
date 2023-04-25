@@ -47,17 +47,6 @@ class ScaledDotProductAttentionDecoder(torch.nn.Module):
 
         if (self.masking == False):
             if (self.is_matrix(K)):
-                # debug prints
-                """
-                print("Q.shape: (ScaledDotProductAttentionDecoder)")
-                print(Q.shape)
-                print("K.shape: (ScaledDotProductAttentionDecoder)")
-                print(K.shape)
-                print("self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))).shape: (ScaledDotProductAttentionDecoder)")
-                print(self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))).shape)
-                print("torch.matmul(self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V).shape: (ScaledDotProductAttentionDecoder)")
-                print(torch.matmul(self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V).shape)
-                """
                 return torch.matmul(self.softmax_fn(torch.div(torch.matmul(Q, torch.transpose(K, -2, -1)), math.sqrt(self.d_k))), V)
             else:
                 return torch.mul(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))), V)
@@ -71,28 +60,6 @@ class ScaledDotProductAttentionDecoder(torch.nn.Module):
                     M[row_index][column_index] = -float('inf')
 
             if (self.is_matrix(K)):
-                # debug prints
-                """
-                print("Q.shape: (ScaledDotProductAttentionDecoder)")
-                print(Q.shape)
-                print("K.shape: (ScaledDotProductAttentionDecoder)")
-                print(K.shape)
-                print("self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))).shape (ScaledDotProductAttentionDecoder)")
-                print(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))).shape)
-                print("torch.matmul(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V).shape: (ScaledDotProductAttentionDecoder)")
-                print(torch.matmul(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V).shape)
-                """
                 return torch.matmul(self.softmax_fn(torch.div(torch.add(torch.matmul(Q, torch.transpose(K, -2, -1)), M), math.sqrt(self.d_k))), V)
             else:
-                # debug prints
-                """
-                print("Q.shape: (ScaledDotProductAttention)")
-                print(Q.shape)
-                print("K.shape: (ScaledDotProductAttention)")
-                print(K.shape)
-                print("self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape: (ScaledDotProductAttention)")
-                print(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))).shape)
-                print("(self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V).shape: (ScaledDotProductAttention)")
-                print((self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V).shape)
-                """
                 return self.softmax_fn(torch.div(torch.matmul(Q, K), math.sqrt(self.d_k))) * V

@@ -39,21 +39,10 @@ class TransformerEncoder(torch.nn.Module):
         self.encoder_output_to_values_layer = torch.nn.Linear(in_features=self.d_model, out_features=self.d_v)
 
     def forward(self, embeddings):
-        # debug prints
-        """
-        print("Inptus into TransformerEncoder:")
-        print("embeddings.shape: (TransformerEncoder)")
-        print(embeddings.shape)
-        """
         currentEncoderResult = embeddings
 
         for encoderBlock in self.encoder_blocks:
             currentEncoderResult = encoderBlock(embeddings=currentEncoderResult)
-            # debug prints
-            """
-            print("currentEncoderResult.shape: (TransformerEncoder)")
-            print(currentEncoderResult.shape)
-            """
         K = self.encoder_output_to_keys_layer(currentEncoderResult)
         V = self.encoder_output_to_values_layer(currentEncoderResult)
 

@@ -1,0 +1,50 @@
+Using cuda device
+Translation for sentence at index 0:
+token_ids_target_sentence:
+[1, 10690, 123653, 142, 149, 24571, 8938, 47, 10413, 199943, 10413, 47, 10413, 42998, 67589, 2551, 31, 90, 299, 181280, 303, 91, 41020, 135, 166955, 39, 31, 154534, 802, 59, 9067, 4572, 26, 170661, 570, 14551, 1336, 34203, 286, 1935, 0, 2]
+generated_token_indices:
+[87991, 193090, 161025, 162793, 14434, 35686, 156361, 150634, 193090, 197380, 111968, 108825, 60050, 94, 70237, 70237, 14434, 5650, 182145, 169938, 80283, 128845, 128845, 60255, 128845, 60255, 8992, 6923, 6923, 6923, 6923, 1016, 156361, 186581, 107334, 31420, 86513, 107334, 99578, 47043, 86513, 107334, 140883, 96391, 57894, 78717, 107334, 6923, 26204, 117620, 86513]
+generated_sequence_decoded:
+['korans', 'bercht', 'zija', 'mittelstraße', 'kö', 'beitrags', 'fanatiker', '0000.“', 'bercht', 'andur', 'ilar', 'baltmannsweiler', 'höft', 'om', 'eschleife', 'eschleife', 'kö', 'steuer', 'lichtintensität', 'chrast', 'alleiter', 'danuser', 'danuser', 'harms', 'danuser', 'harms', 'wh', 'afr', 'afr', 'afr', 'afr', 'stellung', 'fanatiker', 'längeneinheit', 'wii', 'gästen', 'empirismus', 'wii', 'krypta', 'ostblock', 'empirismus', 'wii', 'luzerne', 'optionale', 'zufällige', 'detechnik', 'wii', 'afr', 'triebwerk', 'übersiedeln', 'empirismus']
+Translation for sentence at index 1:
+token_ids_target_sentence:
+[1, 146, 26, 177804, 29795, 10690, 123653, 31, 11579, 1336, 394, 91, 171613, 2551, 103002, 1382, 170661, 1935, 0, 2]
+generated_token_indices:
+[87991, 193090, 195789, 14434, 35686, 156361, 179379, 115754, 14434, 91420, 39752, 60255, 169938, 179379, 112887, 138956, 158014, 14434, 155640, 14434, 107120, 60255, 128845, 60255, 128845, 60255, 8992, 6923, 6923, 6923, 6923, 70237, 70237, 70237, 70237, 70237, 70237, 99578, 99578, 47043, 179379, 139751, 60255, 35735, 60255, 78717, 107334, 6923, 106996, 60255, 112887]
+generated_sequence_decoded:
+['korans', 'bercht', 'industrieschule', 'kö', 'beitrags', 'fanatiker', 'balser', 'hängte', 'kö', 'zentriert', 'nachbildung', 'harms', 'chrast', 'balser', 'argin', 'werchow', 'dengler', 'kö', 'konzerttournee', 'kö', 'burganlagen', 'harms', 'danuser', 'harms', 'danuser', 'harms', 'wh', 'afr', 'afr', 'afr', 'afr', 'eschleife', 'eschleife', 'eschleife', 'eschleife', 'eschleife', 'eschleife', 'krypta', 'krypta', 'ostblock', 'balser', 'geradlinigen', 'harms', 'lean', 'harms', 'detechnik', 'wii', 'afr', 'quellenangaben', 'harms', 'argin']
+Translation for sentence at index 2:
+token_ids_target_sentence:
+[1, 2976, 74205, 17876, 127973, 137, 2976, 45489, 2551, 54614, 2551, 11623, 65960, 6633, 199935, 0, 2]
+generated_token_indices:
+[87991, 16968, 77383, 37789, 14434, 35686, 156361, 150634, 193090, 197380, 111968, 99227, 48841, 157721, 169938, 128845, 128845, 128845, 60255, 169938, 164885, 164885, 164885, 60255, 8992, 99227, 117136, 8992, 6923, 6923, 6923, 70237, 70237, 70237, 70237, 70237, 99578, 99578, 99578, 47043, 86513, 194474, 60255, 35735, 194474, 60255, 78717, 107334, 99578, 117620, 86513]
+generated_sequence_decoded:
+['korans', 'ändes', 'entnahm', 'fw', 'kö', 'beitrags', 'fanatiker', '0000.“', 'bercht', 'andur', 'ilar', 'innings', 'verkehrswege', 'stralsunder', 'chrast', 'danuser', 'danuser', 'danuser', 'harms', 'chrast', 'fahrend', 'fahrend', 'fahrend', 'harms', 'wh', 'innings', 'kartons', 'wh', 'afr', 'afr', 'afr', 'eschleife', 'eschleife', 'eschleife', 'eschleife', 'eschleife', 'krypta', 'krypta', 'krypta', 'ostblock', 'empirismus', 'pirm', 'harms', 'lean', 'pirm', 'harms', 'detechnik', 'wii', 'krypta', 'übersiedeln', 'empirismus']
+Translation for sentence at index 3:
+token_ids_target_sentence:
+[1, 26, 559, 43, 31, 17876, 26, 5785, 5388, 3874, 0, 2]
+generated_token_indices:
+[87991, 193090, 195789, 161025, 101651, 193090, 22869, 14434, 150634, 193090, 60050, 99227, 99227, 99227, 48841, 128845, 89972, 60050, 94, 99227, 48841, 128845, 128845, 128845, 128845, 128845, 128845, 128845, 128845, 128845, 128845, 128845, 89972, 60050, 94, 99227, 99227, 99227, 117136, 37789, 99972, 78717, 117620, 101651, 78717, 78717, 78717, 117620, 101651, 99227, 48841]
+generated_sequence_decoded:
+['korans', 'bercht', 'industrieschule', 'zija', 'ittet', 'bercht', 'verkehrte', 'kö', '0000.“', 'bercht', 'höft', 'innings', 'innings', 'innings', 'verkehrswege', 'danuser', 'fahndung', 'höft', 'om', 'innings', 'verkehrswege', 'danuser', 'danuser', 'danuser', 'danuser', 'danuser', 'danuser', 'danuser', 'danuser', 'danuser', 'danuser', 'danuser', 'fahndung', 'höft', 'om', 'innings', 'innings', 'innings', 'kartons', 'fw', 'bauernpartei', 'detechnik', 'übersiedeln', 'ittet', 'detechnik', 'detechnik', 'detechnik', 'übersiedeln', 'ittet', 'innings', 'verkehrswege']
+Translation for sentence at index 4:
+token_ids_target_sentence:
+[1, 31, 22441, 3796, 91, 53226, 20050, 3146, 5084, 1935, 0, 2]
+generated_token_indices:
+[87991, 98242, 156361, 16968, 77383, 193090, 197380, 193090, 197380, 111968, 108825, 60050, 94, 86513, 156361, 60050, 94, 70237, 70237, 176378, 144935, 107334, 99227, 99227, 117136, 108825, 60255, 8992, 6923, 6923, 26204, 156361, 54531, 35735, 156361, 156361, 107334, 48631, 8992, 6923, 26204, 156361, 107334, 48631, 33828, 6923, 6923, 164540, 60255, 164540, 48841]
+generated_sequence_decoded:
+['korans', 'kenton', 'fanatiker', 'ändes', 'entnahm', 'bercht', 'andur', 'bercht', 'andur', 'ilar', 'baltmannsweiler', 'höft', 'om', 'empirismus', 'fanatiker', 'höft', 'om', 'eschleife', 'eschleife', 'tvöd', 'wilkie', 'wii', 'innings', 'innings', 'kartons', 'baltmannsweiler', 'harms', 'wh', 'afr', 'afr', 'triebwerk', 'fanatiker', 'hinz', 'lean', 'fanatiker', 'fanatiker', 'wii', 'arnold', 'wh', 'afr', 'triebwerk', 'fanatiker', 'wii', 'arnold', 'olly', 'afr', 'afr', 'shäufigkeit', 'harms', 'shäufigkeit', 'verkehrswege']
+Translation for sentence at index 5:
+token_ids_target_sentence:
+[1, 26, 10021, 1034, 581, 43, 2336, 7571, 218, 99, 181270, 8938, 47, 10413, 199943, 10413, 47, 10413, 2100, 286, 275, 8893, 1935, 0, 2]
+generated_token_indices:
+[87991, 193090, 96007, 45394, 193090, 120450, 156361, 179379, 193090, 197380, 133472, 133472, 113983, 86513, 88665, 129711, 48841, 60255, 94, 99227, 48841, 60255, 128845, 60255, 128845, 60255, 8992, 6923, 6923, 6923, 26204, 156361, 71622, 2284, 156361, 156361, 156787, 8992, 99227, 117136, 48841, 60255, 35735, 194474, 60255, 78717, 107334, 6923, 26204, 117620, 86513]
+generated_sequence_decoded:
+['korans', 'bercht', 'vorortbahn', 'europaea', 'bercht', 'pamuk', 'fanatiker', 'balser', 'bercht', 'andur', 'eingeschleust', 'eingeschleust', 'grád', 'empirismus', '0.00,', 'verblendet', 'verkehrswege', 'harms', 'om', 'innings', 'verkehrswege', 'harms', 'danuser', 'harms', 'danuser', 'harms', 'wh', 'afr', 'afr', 'afr', 'triebwerk', 'fanatiker', 'azio', 'sieben', 'fanatiker', 'fanatiker', 'befeuerung', 'wh', 'innings', 'kartons', 'verkehrswege', 'harms', 'lean', 'pirm', 'harms', 'detechnik', 'wii', 'afr', 'triebwerk', 'übersiedeln', 'empirismus']
+Translation for sentence at index 6:
+token_ids_target_sentence:
+[1, 31, 11493, 421, 1915, 59, 66818, 4572, 43, 1464, 29, 188255, 5453, 270, 35826, 1935, 0, 2]
+generated_token_indices:
+[87991, 193090, 132610, 8951, 197044, 8992, 17119, 14434, 150634, 193090, 70107, 146105, 73324, 98723, 98548, 108989, 80632, 48631, 8992, 99227, 117136, 15130, 128655, 128845, 60255, 99227, 117136, 117136, 48631, 8992, 99227, 117136, 70107, 186581, 99578, 47043, 86513, 107334, 48631, 8992, 6923, 6923, 6923, 78717, 78717, 78717, 78717, 107334, 99227, 48841, 60255]
+generated_sequence_decoded:
+['korans', 'bercht', 'zementfabrik', 'obile', 'siesmayer', 'wh', 'saar', 'kö', '0000.“', 'bercht', 'hexerei', 'widerhaken', 'drehzahlen', 'willoughby', 'anhaften', 'sprunggelenk', 'duct', 'arnold', 'wh', 'innings', 'kartons', 'erkenntnisse', 'intelligence', 'danuser', 'harms', 'innings', 'kartons', 'kartons', 'arnold', 'wh', 'innings', 'kartons', 'hexerei', 'längeneinheit', 'krypta', 'ostblock', 'empirismus', 'wii', 'arnold', 'wh', 'afr', 'afr', 'afr', 'detechnik', 'detechnik', 'detechnik', 'detechnik', 'wii', 'innings', 'verkehrswege', 'harms']
