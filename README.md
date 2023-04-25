@@ -4,7 +4,7 @@ This is my implementation of Transformers from scratch (in PyTorch). Transformer
 
 I would also like to note that, since I was focused on translating concepts from the paper to code, the code I have written can most probably be written more efficiently (and also more readably as well). I have noted some potential improvement areas with `TODO`s in my code and other improvements in **Future_work.txt**.
  
-## Files and folders description:
+## Files and folders description
 
 You can download the Transformer model weights (which were trained on the **mini_train** dataset) for 2048 epochs [here](https://drive.google.com/file/d/1bT2rt1qBustTHrkjP0FGFSj5w9NRJTIs/view?usp=sharing).
 
