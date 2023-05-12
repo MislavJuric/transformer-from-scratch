@@ -6,7 +6,7 @@ I would also like to note that, since I was focused on translating concepts from
  
 ## Files and folders description
 
-You can download the Transformer model weights (which were trained on the **mini_train** dataset) for 2048 epochs [here](https://drive.google.com/file/d/1bT2rt1qBustTHrkjP0FGFSj5w9NRJTIs/view?usp=sharing).
+You can download the Transformer model weights (which were trained on the **mini_train** dataset) for 2048 epochs [here](https://drive.google.com/file/d/1bT2rt1qBustTHrkjP0FGFSj5w9NRJTIs/view?usp=sharing). **mini-train** dataset was obtained by taking the first 7 sentences from English-German dataset found [here](https://nlp.stanford.edu/projects/nmt/).
 
 You can re-create my virtual environment in [(Ana)conda](https://www.anaconda.com/) by running:
 
